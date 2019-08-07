@@ -12,6 +12,7 @@
 <script>
 import Cajero from './components/Cajero.vue'
 import Login from './components/Login.vue'
+import { async } from 'q';
 
 export default {
   name: 'app',
@@ -22,9 +23,27 @@ export default {
   data() {
     return {
       auth: false,
+      usuarios: []
     }
   },
-  methods: {
+  mounted(){
+    this.cargarUsuarios(),
+    this.loadUsers()
+  },
+  methods:{
+    cargarUsuarios(){
+      console.log('cargar usuarios')
+    },
+    validar( pass ){
+      const cantidadUsuarios = this.usuarios.length
+      for (let i=0; i < cantidadUsuarios ; i++){
+        console.log (this.usuarios[i].contraseña)
+      }
+    },
+    loadUsers: async function(){
+      const data = await fetch('./usuarios.json')
+      this.usuarios = await data.json()
+    },
     checkLogin(user) {
       // eslint-disable-next-line
       console.log(user.name)
